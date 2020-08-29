@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat Cleiton</title>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <form id="chat">
+    <input type="text" name="username" placeholder="Digite seu nome">
+    <div class="messages"></div>
+    <input type="text" name="message" placeholder="Digite sua mensagem">
+    <button type="submit">Enviar</button>
+  </form>
+
+  <script>
+    const renderMessage = messages => {
+      const {author, message} = messages;
+      $('.messages').append(`<div class="message"><strong>${author}</strong> ${message}</div>`)
+    }
+
+    const socket = io('http://localhost:3000',{
+      reconnection: true,             // whether to reconnect automatically
+      reconnectionAttempts: Infinity, // number of reconnection attempts before giving up
+      reconnectionDelay: 1000,        // how long to initially wait before attempting a new reconnection
+      reconnectionDelayMax: 5000,     // maximum amount of time to wait between reconnection attempts. Each attempt increases the reconnection delay by 2x along with a randomization factor
+      randomizationFactor: 0.5
+    });
+
+    socket.on('connect', () => {
+      console.log('Você está conectado')
+    });
+
+    socket.on('disconnect', () => {
+      console.log('Sua conexão caiu')
+    });
+
+    socket.on('receivedMessage', data => {
+      renderMessage(data);
+    });
+
+    socket.on('previousMessages', messages => {
+      messages.forEach( message => {
+        renderMessage(message);
+      });
+    });
+
+    $('#chat').submit( event => {
+      event.preventDefault();
+
+      const author = $('input[name=username]').val();
+      const message = $('input[name=message]').val();
+
+      if(author.length && message.length){
+        const messageObject = {
+          author,
+          message
+        }
+
+        renderMessage(messageObject);
+
+        socket.emit('sendMessage', messageObject)
+      }
+    })
+  </script>
+</body>
+</html>

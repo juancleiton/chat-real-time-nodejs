@@ -36,7 +36,7 @@ From your command line:
 
 ```bash
 # Clone this repository
-$ git clone https://github.com/juancleiton/chat-real-time-nodejs.git
+$ git clone https://github.com/juancleiton/chat-real-time-nodejs
 
 # Go into the repository
 $ cd chat-real-time-nodejs

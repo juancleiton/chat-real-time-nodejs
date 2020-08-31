@@ -7,21 +7,65 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
-
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <form id="chat">
-    <input type="text" name="username" placeholder="Digite seu nome">
-    <div class="messages"></div>
-    <input type="text" name="message" placeholder="Digite sua mensagem">
-    <button type="submit">Enviar</button>
-  </form>
+  <div class="container">
+    <header>
+      <div>
+        <img src="./assets/icons/logotipo/icon.png" alt="logotipo" width="45px">
+      </div>
+      <span>CHAT GLOBAL</span>
+    </header>
+    <section>
+      <div class="configuration">
+        <div>
+          <img class="icon-setting" src="./assets/icons/profile/icon.png" alt="configuração">
+        </div>
+        <form id="settings">
+          <label for="username">Como se chama?</label>
+          <input 
+            type="text"
+            id="username"
+            name="username"
+            placeholder="Digite seu nome"
+            required>
+          <button type="submit">Salvar</button>
+        </form>
+      </div>
+      <div class="session">
+        <form id="chat">
+          <div class="text-legend">
+            Se identifique para participar da conversa.
+          </div>
+          <div class="messages"></div>
+          <div class="send-message">
+            <input type="text" name="message" placeholder="Digite sua mensagem">
+            <button type="submit">
+              <img src="./assets/icons/send/icon.png" alt="enviar">
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </div>
 
-  <script>
-    const renderMessage = messages => {
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+  <script>  
+    let user = {
+      name: ""
+    }
+    const renderMessage = (messages, sentBy = 'guest') => {
       const {author, message} = messages;
-      $('.messages').append(`<div class="message"><strong>${author}</strong> ${message}</div>`)
+      $('.messages').append(`
+        <div class="sent-message">
+          <div class="${sentBy}">
+            <strong>${sentBy === 'guest' ? author : 'Você'}</strong>
+            <span>${message}</span>
+          </div>
+        </div>
+      `);
     }
 
     const socket = io('http://localhost:3000',{
@@ -48,24 +92,62 @@
       messages.forEach( message => {
         renderMessage(message);
       });
+      let minhadiv = $('.messages');
+      minhadiv.scrollTop = minhadiv.scrollHeight;
     });
+
+    $('#settings').submit(event => {
+      event.preventDefault();
+
+      user.name = $('input[name=username]').val();
+      
+      Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: 'Seu nome foi salvo',
+        showConfirmButton: false,
+        timer: 1500
+      })
+
+      $('.text-legend').html("Chat liberado");
+    })
 
     $('#chat').submit( event => {
       event.preventDefault();
 
-      const author = $('input[name=username]').val();
-      const message = $('input[name=message]').val();
-
-      if(author.length && message.length){
-        const messageObject = {
-          author,
-          message
-        }
-
-        renderMessage(messageObject);
-
-        socket.emit('sendMessage', messageObject)
+      if(!user.name){
+        Swal.fire({
+          icon: 'info',
+          title: 'Antes, se identifique',
+          text: 'Informe como gostaria de ser chamado(a).'
+        });
+        return;
       }
+
+      const author = user.name;
+      const message = $('input[name=message]').val();
+      $('input[name=message]').val('');
+
+      if(!message.length){
+        Swal.fire({
+          position: 'top-end',
+          icon: 'error',
+          title: 'Por favor digite uma mensagem',
+          showConfirmButton: false,
+          timer: 1500
+        })
+        return;
+      }
+
+      const messageObject = { author, message }
+      
+      renderMessage(messageObject, 'author');
+
+      socket.emit('sendMessage', messageObject);
+
+      $('.messages').attr({
+        scrollTop: $('.messages').attr('scrollHeight')
+      });
     })
   </script>
 </body>

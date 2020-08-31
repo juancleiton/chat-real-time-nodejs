@@ -1,45 +1,234 @@
-html, body {
-  height: 100%;
-}
-
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
 }
 
-#chat {
-  height: 100%;
+button:focus{
+  outline: none;
+  border: none;
+}
+
+.text-legend{
+  color: rgba(0,0,0,.3);
+  text-align: center;
+  margin: 10px 0;
+}
+.sent-message {
+  margin-top: 20px;
+  width: 100%;
+}
+.sent-message strong,
+.sent-message span{
+  color: #0f084b;
+}
+.sent-message span{
+  margin-top: 5px;
+}
+.guest, .author{
+  display: flex;
+  flex-direction: column;
+  width: 75%;
+  padding: 6px 12px;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+.guest{
+  background-color: rgba(255,255,255, .4);
+  border-top-right-radius: 10px;
+}
+.author{
+  background-color: rgba(255,255,255, .4);
+  border-top-left-radius: 10px;
+  margin-left: 25%;
+  text-align: end;
+}
+
+.container{
+  height: 100vh;
+  background-color: #fff;
+}
+
+/* HEADER */
+.container header{
+  width: 100vw;
+  height: 80px;
+  background-color: #c2e7d9;
+
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.container header span{
+  padding-left: 2%;
+  font-size: 20px;
+  font-weight: bold;
+  color: #0d0221;
+}
+
+/* CONTEÚDO */
+.container section {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-gap: 2%;
+  padding: 2% 10%;
+}
+
+.container section .configuration{
+  background-color: #0f084b;
+  border-radius: 6px;
+  height: 100vh;
+  max-height: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.container section .configuration .icon-setting {
+  width: 70px;
+  height: 70px;
+}
+
+.container section .configuration #settings {
+  margin-top: 6%;
+  padding: 0 15%;
+  display: flex;
   flex-direction: column;
 }
 
-input {
-  width: 600px;
-  border: 1px solid #ddd;
-  height: 50px;
-  padding: 0 20px;
-  font-size: 14px;
-}
-
-button {
-  width: 600px;
-  height: 50px;
-  font-size: 14px;
-  background: #069;
+.container section .configuration #settings label{
+  font-size: 18px;
+  color: #fff;
   text-align: center;
-  line-height: 50px;
-  font-weight: bold;
-  color: #FFF;
-  margin-top: 10px;
 }
 
-.messages {
-  width: 600px;
-  height: 400px;
-  margin: 20px 0;
-  border: 1px solid #ddd;
-  padding: 20px;
+.container section .configuration #settings input {
+  border: none;
+  border-radius: 16px;
+  outline: none;
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: rgba(13, 2, 33, .4);
+  color: #fff;
+  font-size: 14px;
+}
+.container section .configuration #settings input::placeholder{
+  color: #fff;
+  font-size: 14px;
+}
+
+.container section .configuration #settings button{
+  border: none;
+  border-radius: 16px;
+  background-color: #a6cfd5;
+  margin-top: 15px;
+  padding: 10px 20px;
+  color: #0f084b;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: ease .5s;
+}
+.container section .configuration #settings button:hover{
+  background-color: #c2e7d9;
+}
+
+.container section .session{
+  background-color: #c2e7d9;
+  border-radius: 6px;
+  height: 100vh;
+  max-height: 500px;
+}
+
+.container section .session form{
+  width: 100%;
+  height: 100%;
+  padding: 1%;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 7.5fr 1.5fr;
+}
+
+.container section .session form .messages{
+  width: 100%;
+  height: 100%;
+  overflow-x: auto;
+  padding: 0 5%;
+}
+
+.container section .session form .messages::-webkit-scrollbar{
+  width:10px;
+  height: 10px;
+}
+
+.container section .session form .messages::-webkit-scrollbar-track{
+  background:rgba(255,255,255, .4);
+  border-radius: 5px;
+}
+
+.container section .session form .messages::-webkit-scrollbar-thumb {
+  background: rgba(15, 8, 75, 1);
+  border-radius: 5px;
+}
+
+.container section .session form .send-message{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding-top: 10px;
+}
+
+.container section .session form .send-message input{
+  width: 80%;
+  height: 66%;
+  border: none;
+  border-radius: 16px;
+  outline: none;
+  padding: 0 20px;
+  background-color:rgba(255,255,255, .4);
+  color: #0f084b;
+  font-size: 16px;
+}
+.container section .session form .send-message input::placeholder{
+  color: rgba(15, 8, 75, .6);
+  font-size: 16px;
+}
+.container section .session form .send-message input:focus{
+  background-color:rgba(255,255,255, .8);
+}
+
+.container section .session form .send-message button{
+  display: flex;
+  margin-left: 2%;
+  background-color: rgba(0,0,0,0);
+  border: none;
+}
+
+.container section .session form .send-message button img{
+  cursor: pointer;
+  width: 28px;
+  height: 28px;
+}
+
+/* VERSÃO PARA MOBILE */
+@media(max-width: 768.9px){
+  .container section{
+    display: flex;
+    flex-direction: column;
+    padding: 4%;
+  }
+  .container section .configuration{
+    max-height: 300px;
+    margin-bottom: 4%;
+  }
+  .container section .session form .send-message input{
+    width: 74%;
+  }
+  .container section .session form .send-message button{
+    margin: 0 5%;
+  }
 }

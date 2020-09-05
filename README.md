@@ -58,6 +58,7 @@ Open your favorite browser and in 2 or more tabs insert the url http://localhost
 ## About The Project
 
 Do you want to chat with friends, or even those you don't even know? So this project fits him like a glove. Enjoy talking simultaneously with several people.
+
 ---
 
 Made with ♥ by Juan Cleiton :wave: [Get in touch!](https://www.linkedin.com/in/juancleiton30/)

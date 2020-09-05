@@ -11,7 +11,7 @@ Animation showing a little bit of how real time works in chat.
 <p align="center">
   <a href="#rocket-technologies">Technologies</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#information_source-how-to-use">How To Use</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#memo-license">License</a>
+  <a href="#about-the-project">About The Project</a>
 </p>
 
 <p align="center">
@@ -55,9 +55,9 @@ Server running on port 3000
 ```
 Open your favorite browser and in 2 or more tabs insert the url http://localhost:3000
 
-## :memo: License
-This project is under the MIT license. See the [LICENSE](https://github.com/lukemorales/react-native-design-code/blob/master/LICENSE) for more information.
+## About The Project
 
+Do you want to chat with friends, or even those you don't even know? So this project fits him like a glove. Enjoy talking simultaneously with several people.
 ---
 
 Made with ♥ by Juan Cleiton :wave: [Get in touch!](https://www.linkedin.com/in/juancleiton30/)
